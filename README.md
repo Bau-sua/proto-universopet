@@ -165,33 +165,43 @@ desde cualquier dispositivo. La demo usa **SQLite con un volumen persistente**:
 así los datos demo (catálogo, stock, pedidos) se conservan entre redeploys, sin
 tener que migrar el schema a PostgreSQL todavía.
 
+> **Importante (ago 2026):** Railway deprecó `railway.json` (Config as Code) y
+> los servicios **nuevos ya no pueden optar** por él. Este proyecto usa
+> **Infrastructure as Code** (`.railway/railway.ts`), que además declara el
+> volumen que antes se creaba a mano en `Settings → Volumes` (por eso esa
+> sección ya no aparece): todo se define en el código y se aplica con la CLI.
+
+### Requisitos
+
+- Cuenta en Railway conectada a tu GitHub.
+- CLI de Railway: `npm.cmd install -g @railway/cli`
+
 ### Cómo desplegar (una sola vez)
 
-1. **Subí el repo a GitHub** (público o privado):
+1. **Subí el repo a GitHub** y anotá tu `USUARIO/REPO`:
    ```bash
-   git add -A && git commit -m "chore: prep for Railway demo" && git push
+   git push
    ```
 
-2. **Creá el proyecto en Railway** (railway.app → "New Project" → "Deploy from
-   GitHub repo") y seleccioná este repositorio.
+2. **Completá el source en `.railway/railway.ts`** — reemplazá
+   `TU-USUARIO/TU-REPO` por el repo real (es la única línea que depende de tu
+   cuenta y hay que tocarla a mano).
 
-3. **Mounteá un volumen persistente** (clave para que los datos se mantengan):
-   - En el servicio, entrá a **Settings → Volumes** → "Add Volume".
-   - **Mount path:** `/app/prisma` (ahí vive el archivo `dev.db`).
-   - Tamaño: el mínimo (1 GB) alcanza de sobra para la demo.
+3. **Login y link** desde esta carpeta:
+   ```bash
+   railway login
+   railway init
+   ```
 
-4. **Variables de entorno** (Settings → Variables) — solo necesitás subir una
-   pública para la demo:
-   | Variable | Valor |
-   |----------|-------|
-   | `NEXT_PUBLIC_WHATSAPP_NUMBER` | el número de WhatsApp del negocio en formato E.164 (ej. `5491122334455`) |
-
-   El `railway.json` ya define el `startCommand` que crea la base y carga el
-   seed automáticamente en cada deploy (target: `npm run db:push && npm run db:seed && npm start`).
+4. **Aplicá la infraestructura** — crea servicio, volumen y variables:
+   ```bash
+   railway config plan
+   railway config apply
+   ```
 
 5. Railway **genera una URL pública** (`https://<app>.up.railway.app`) que
-   podés abrir desde el celular del cliente. Podés configurar un dominio propio
-   en **Settings → Networking → Generate Domain / Custom Domain**.
+   podés abrir desde el celular del cliente. Para un dominio propio:
+   **Settings → Networking → Generate Domain / Custom Domain** en el servicio.
 
 > **Nota:** `db:seed` es **idempotente** (upserts con IDs fijos), así que correrlo
 > en cada deploy no duplica datos: asegura que la demo nunca arranque "vacía".
@@ -202,8 +212,9 @@ tener que migrar el schema a PostgreSQL todavía.
   contra SQLite. Migrar a PostgreSQL ahora exigiría tocar schema, seed y el
   repositorio de `orders` (orderNumber max+1, JSON/String, Float/Decimal) — riesgo
   innecesario para una demo mostradera.
-- **Persistencia real:** el volumen montado en `/app/prisma` conserva `dev.db`
-  entre redeploys, así los pedidos/estado de la demo no se pierden.
+- **Persistencia real:** el volumen `universopet-data` (declarado en
+  `.railway/railway.ts`) se monta en `/app/prisma`, así `dev.db` sobrevive los
+  redeploys y los pedidos/estado de la demo no se pierden.
 - **Al producto final** migrás a PostgreSQL en Railway con `prisma migrate`
   versionado (documentado en la tabla de la sección "Decisiones clave").
 
