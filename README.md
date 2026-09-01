@@ -157,6 +157,55 @@ demo se ve igual con o sin base inicializada, y seed y UI nunca se desalinean.
   sin red de imágenes/fuentes.
 - `next-env.d.ts` queda trackeado (estándar de Next.js).
 
+## Despliegue en Railway (demo pública)
+
+Este mockup está pensado para desplegarse en **Railway** y mostrarse al cliente
+desde cualquier dispositivo. La demo usa **SQLite con un volumen persistente**:
+así los datos demo (catálogo, stock, pedidos) se conservan entre redeploys, sin
+tener que migrar el schema a PostgreSQL todavía.
+
+### Cómo desplegar (una sola vez)
+
+1. **Subí el repo a GitHub** (público o privado):
+   ```bash
+   git add -A && git commit -m "chore: prep for Railway demo" && git push
+   ```
+
+2. **Creá el proyecto en Railway** (railway.app → "New Project" → "Deploy from
+   GitHub repo") y seleccioná este repositorio.
+
+3. **Mounteá un volumen persistente** (clave para que los datos se mantengan):
+   - En el servicio, entrá a **Settings → Volumes** → "Add Volume".
+   - **Mount path:** `/app/prisma` (ahí vive el archivo `dev.db`).
+   - Tamaño: el mínimo (1 GB) alcanza de sobra para la demo.
+
+4. **Variables de entorno** (Settings → Variables) — solo necesitás subir una
+   pública para la demo:
+   | Variable | Valor |
+   |----------|-------|
+   | `NEXT_PUBLIC_WHATSAPP_NUMBER` | el número de WhatsApp del negocio en formato E.164 (ej. `5491122334455`) |
+
+   El `railway.json` ya define el `startCommand` que crea la base y carga el
+   seed automáticamente en cada deploy (target: `npm run db:push && npm run db:seed && npm start`).
+
+5. Railway **genera una URL pública** (`https://<app>.up.railway.app`) que
+   podés abrir desde el celular del cliente. Podés configurar un dominio propio
+   en **Settings → Networking → Generate Domain / Custom Domain**.
+
+> **Nota:** `db:seed` es **idempotente** (upserts con IDs fijos), así que correrlo
+> en cada deploy no duplica datos: asegura que la demo nunca arranque "vacía".
+
+### Por qué SQLite + volumen (decisión para la demo)
+
+- **Cero cambios de código:** el schema, el seed y todo el mockup corren tal cual
+  contra SQLite. Migrar a PostgreSQL ahora exigiría tocar schema, seed y el
+  repositorio de `orders` (orderNumber max+1, JSON/String, Float/Decimal) — riesgo
+  innecesario para una demo mostradera.
+- **Persistencia real:** el volumen montado en `/app/prisma` conserva `dev.db`
+  entre redeploys, así los pedidos/estado de la demo no se pierden.
+- **Al producto final** migrás a PostgreSQL en Railway con `prisma migrate`
+  versionado (documentado en la tabla de la sección "Decisiones clave").
+
 ## Variables de entorno
 
 Ver `.env.example`. El único valor necesario para correr es `DATABASE_URL`
