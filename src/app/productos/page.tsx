@@ -7,7 +7,7 @@ import { getCatalogProducts, getCatalogCategories } from "@/server/catalog";
 export const metadata: Metadata = {
   title: "Catálogo de productos",
   description:
-    "Explorá el catálogo completo de Huellitas Pet Shop: alimentos, juguetes, accesorios e higiene para perros y gatos.",
+    "Explorá el catálogo completo de Universo Pet: alimentos, juguetes, accesorios e higiene para perros y gatos.",
 };
 
 type Props = {

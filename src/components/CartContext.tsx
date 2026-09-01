@@ -13,7 +13,7 @@ import {
 } from "react";
 import type { CartLine } from "@/types/catalog";
 
-const STORAGE_KEY = "huellitas-cart";
+const STORAGE_KEY = "universopet-cart";
 
 interface CartContextValue {
   items: CartLine[];

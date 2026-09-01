@@ -22,10 +22,10 @@ export function Header() {
             </span>
             <span className="leading-tight">
               <span className="block text-lg font-extrabold tracking-tight text-slate-900">
-                Huellitas
+                Universo Pet
               </span>
               <span className="block text-[11px] font-semibold uppercase tracking-widest text-brand-600">
-                Pet Shop
+                Tienda de mascotas
               </span>
             </span>
           </Link>

@@ -11,7 +11,7 @@ export function Footer() {
             <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-brand-600 text-white">
               <PawIcon className="h-5 w-5" />
             </span>
-            <span className="text-lg font-extrabold text-slate-900">Huellitas</span>
+            <span className="text-lg font-extrabold text-slate-900">Universo Pet</span>
           </div>
           <p className="mt-3 text-sm leading-relaxed text-slate-500">
             {STORE_NAME}. Productos de calidad para perros y gatos, con envío a

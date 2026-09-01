@@ -12,7 +12,7 @@ import { formatARS, formatDate } from "@/lib/constants";
 
 export const metadata: Metadata = {
   title: "Dashboard",
-  description: "Panel de administración demo — Huellitas Pet Shop",
+  description: "Panel de administración demo — Universo Pet",
 };
 
 export default async function AdminDashboardPage() {

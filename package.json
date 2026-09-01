@@ -1,5 +1,5 @@
 {
-  "name": "huellitas-pet-shop-mockup",
+  "name": "universopet-mockup",
   "version": "0.1.0",
   "private": true,
   "description": "E-commerce mockup for a pet shop (modular monolith with a reusable core). Next.js 15 + TypeScript + Prisma + Tailwind.",

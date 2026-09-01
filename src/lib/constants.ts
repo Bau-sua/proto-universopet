@@ -1,6 +1,6 @@
 // Shared constants used by both the presentation and business layers.
 
-export const STORE_NAME = "Huellitas Pet Shop";
+export const STORE_NAME = "Universo Pet";
 export const STORE_TAGLINE = "Todo para tu mascota, con envío a tu casa";
 
 // WhatsApp CTA (Argentina, E.164 without "+").

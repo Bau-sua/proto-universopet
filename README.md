@@ -1,6 +1,7 @@
-# Huellitas Pet Shop — E-commerce Mockup
+# Universo Pet — E-commerce Mockup
 
-Demo de plataforma de e-commerce para un pet shop argentino (una tienda hoy,
+Demo de plataforma de e-commerce para Universo Pet, un pet shop argentino
+(una tienda hoy,
 multi-sucursal en el futuro). Arquitectura **monolito modular** con un núcleo
 reutilizable para el producto final: presentación delgada, API delgada, lógica
 de negocio independiente de Next.js, acceso a datos por repositorios e

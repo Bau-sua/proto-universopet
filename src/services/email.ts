@@ -31,7 +31,7 @@ export async function sendOrderConfirmation(input: {
 }): Promise<void> {
   await emailProvider.send({
     to: input.to,
-    subject: `Pedido #${input.orderNumber} confirmado — Huellitas Pet Shop`,
+    subject: `Pedido #${input.orderNumber} confirmado — Universo Pet`,
     html: `<p>Gracias por tu compra. Tu pedido #${input.orderNumber} por $${input.total.toLocaleString("es-AR")} fue confirmado.</p>`,
   });
 }
